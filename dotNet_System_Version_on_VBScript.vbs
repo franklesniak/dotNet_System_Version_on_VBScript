@@ -5,7 +5,7 @@ Class Version
     ' objects are not readily accessible in VBScript, and version-processing/comparison is a
     ' common systems administration activity.
     '
-    ' Version: 1.0.20210104.0
+    ' Version: 1.0.20210104.1
 
     ' Public Methods:
     '   Clone(ByRef objTargetVersionObject)
@@ -42,7 +42,7 @@ Class Version
 
     'region License
     '##########################################################################################
-    ' Copyright 2020 Frank Lesniak
+    ' Copyright 2021 Frank Lesniak
     '
     ' Permission is hereby granted, free of charge, to any person obtaining a copy of this
     ' software and associated documentation files (the "Software"), to deal in the Software
