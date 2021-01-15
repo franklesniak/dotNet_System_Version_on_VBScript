@@ -4,7 +4,7 @@ Class Version
     ' objects are not readily accessible in VBScript, and version-processing/comparison is a
     ' common systems administration activity.
     '
-    ' Version: 1.0.20210104.3
+    ' Version: 1.0.20210115.0
     '
     ' Public Methods:
     '   Clone(ByRef objTargetVersionObject)
@@ -75,8 +75,8 @@ Class Version
         lngPrivateRevision = CLng(-1)
     End Sub
 
-    Private Function TestObjectForData(ByVal objToCheck)
-        'region TestObjectForDataFunctionMetadata ####################################################
+    Function TestObjectForData(ByVal objToCheck)
+        'region FunctionMetadata ####################################################
         ' Checks an object or variable to see if it "has data".
         ' If any of the following are true, then objToCheck is regarded as NOT having data:
         '   VarType(objToCheck) = 0
@@ -84,14 +84,14 @@ Class Version
         '   objToCheck Is Nothing
         '   IsEmpty(objToCheck)
         '   IsNull(objToCheck)
-        '   objToCheck = ""
+        '   objToCheck = vbNullString (or "")
         '   IsArray(objToCheck) = True And UBound(objToCheck) throws an error
         '   IsArray(objToCheck) = True And UBound(objToCheck) < 0
         ' In any of these cases, the function returns False. Otherwise, it returns True.
         '
-        ' Version: 1.1.20210104.1
-        'endregion TestObjectForDataFunctionMetadata ####################################################
-
+        ' Version: 1.1.20210115.0
+        'endregion FunctionMetadata ####################################################
+    
         'region License ####################################################
         ' Copyright 2021 Frank Lesniak
         '
@@ -111,12 +111,12 @@ Class Version
         ' OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
         ' DEALINGS IN THE SOFTWARE.
         'endregion License ####################################################
-
+    
         'region DownloadLocationNotice ####################################################
         ' The most up-to-date version of this script can be found on the author's GitHub repository
         ' at https://github.com/franklesniak/Test_Object_For_Data
         'endregion DownloadLocationNotice ####################################################
-
+    
         'region Acknowledgements ####################################################
         ' Thanks to Scott Dexter for writing the article "Empty Nothing And Null How Do You Feel
         ' Today", which inspired me to create this function. https://evolt.org/node/346
@@ -124,14 +124,19 @@ Class Version
         ' Thanks also to "RhinoScript" for the article "Testing for Empty Arrays" for providing
         ' guidance for how to test for the empty array condition in VBScript.
         ' https://wiki.mcneel.com/developer/scriptsamples/emptyarray
+        '
+        ' Thanks also "iamresearcher" who posted this and inspired the test case for vbNullString:
+        ' https://www.vbforums.com/showthread.php?684799-The-Differences-among-Empty-Nothing-vbNull-vbNullChar-vbNullString-and-the-Zero-L
         'endregion Acknowledgements ####################################################
-
+    
         Dim boolTestResult
         Dim boolFunctionReturn
         Dim intArrayUBound
-
+    
+        Err.Clear
+    
         boolFunctionReturn = True
-
+    
         'Check VarType(objToCheck) = 0
         On Error Resume Next
         boolTestResult = (VarType(objToCheck) = 0)
@@ -147,7 +152,7 @@ Class Version
                 boolFunctionReturn = False
             End If
         End If
-
+    
         'Check VarType(objToCheck) = 1
         On Error Resume Next
         boolTestResult = (VarType(objToCheck) = 1)
@@ -163,7 +168,7 @@ Class Version
                 boolFunctionReturn = False
             End If
         End If
-
+    
         'Check to see if objToCheck Is Nothing
         If boolFunctionReturn = True Then
             On Error Resume Next
@@ -181,7 +186,7 @@ Class Version
                 End If
             End If
         End If
-
+    
         'Check IsEmpty(objToCheck)
         If boolFunctionReturn = True Then
             On Error Resume Next
@@ -199,7 +204,7 @@ Class Version
                 End If
             End If
         End If
-
+    
         'Check IsNull(objToCheck)
         If boolFunctionReturn = True Then
             On Error Resume Next
@@ -217,11 +222,11 @@ Class Version
                 End If
             End If
         End If
-
-        'Check objToCheck = ""
+        
+        'Check objToCheck = vbNullString
         If boolFunctionReturn = True Then
             On Error Resume Next
-            boolTestResult = (objToCheck = "")
+            boolTestResult = (objToCheck = vbNullString)
             If Err Then
                 'Error occurred
                 Err.Clear
@@ -235,7 +240,7 @@ Class Version
                 End If
             End If
         End If
-
+    
         If boolFunctionReturn = True Then
             On Error Resume Next
             boolTestResult = IsArray(objToCheck)
@@ -265,9 +270,9 @@ Class Version
                 End If
             End If
         End If
-
+    
         TestObjectForData = boolFunctionReturn
-    End Function
+    End Function        
 
     Public Function Clone(ByRef objTargetVersionObject)
         ' Creates a copy of the current version object and stores it in the first (and only)
@@ -307,6 +312,8 @@ Class Version
         Dim lngComparedMinor
         Dim lngComparedBuild
         Dim lngComparedRevision
+
+        Err.Clear
 
         intResult = 0
         If TestObjectForData(objOtherVersionObject) = False Then
@@ -391,6 +398,8 @@ Class Version
         Dim lngComparedMinor
         Dim lngComparedBuild
         Dim lngComparedRevision
+
+        Err.Clear
 
         intResult = 0
         If TestObjectForData(strOtherVersion) = False Then
@@ -481,6 +490,8 @@ Class Version
         Dim lngComparedBuild
         Dim lngComparedRevision
 
+        Err.Clear
+
         boolResult = True
         If TestObjectForData(objOtherVersionObject) = False Then
             boolResult = False
@@ -542,6 +553,8 @@ Class Version
         Dim lngComparedMinor
         Dim lngComparedBuild
         Dim lngComparedRevision
+
+        Err.Clear
 
         boolResult = True
         If TestObjectForData(objOtherVersionObject) = False Then
@@ -610,6 +623,8 @@ Class Version
         Dim lngComparedMinor
         Dim lngComparedBuild
         Dim lngComparedRevision
+
+        Err.Clear
 
         boolResult = True
         If TestObjectForData(objOtherVersionObject) = False Then
@@ -710,6 +725,8 @@ Class Version
         Dim lngTempMinor
         Dim lngTempBuild
         Dim lngTempRevision
+
+        Err.Clear
 
         intFunctionReturn = 0
 
@@ -834,6 +851,8 @@ Class Version
         Dim lngTempMinor
         Dim lngTempBuild
         Dim lngTempRevision
+
+        Err.Clear
 
         intFunctionReturn = 0
 
@@ -1016,6 +1035,8 @@ Class Version
         Dim lngComparedBuild
         Dim lngComparedRevision
 
+        Err.Clear
+
         boolResult = True
         If TestObjectForData(objOtherVersionObject) = False Then
             boolResult = False
@@ -1084,6 +1105,8 @@ Class Version
         Dim lngComparedBuild
         Dim lngComparedRevision
 
+        Err.Clear
+
         boolResult = True
         If TestObjectForData(objOtherVersionObject) = False Then
             boolResult = False
@@ -1144,6 +1167,8 @@ Class Version
         Dim lngComparedMinor
         Dim lngComparedBuild
         Dim lngComparedRevision
+
+        Err.Clear
 
         boolResult = False
         If TestObjectForData(objOtherVersionObject) = False Then
