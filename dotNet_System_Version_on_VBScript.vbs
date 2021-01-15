@@ -4,7 +4,7 @@ Class Version
     ' objects are not readily accessible in VBScript, and version-processing/comparison is a
     ' common systems administration activity.
     '
-    ' Version: 1.0.20210115.0
+    ' Version: 1.0.20210115.1
     '
     ' Public Methods:
     '   Clone(ByRef objTargetVersionObject)
@@ -75,7 +75,7 @@ Class Version
         lngPrivateRevision = CLng(-1)
     End Sub
 
-    Function TestObjectForData(ByVal objToCheck)
+    Private Function TestObjectForData(ByVal objToCheck)
         'region FunctionMetadata ####################################################
         ' Checks an object or variable to see if it "has data".
         ' If any of the following are true, then objToCheck is regarded as NOT having data:
