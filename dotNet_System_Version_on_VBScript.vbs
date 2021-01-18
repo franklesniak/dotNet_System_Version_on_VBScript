@@ -1,10 +1,14 @@
+' Versions of VBScript prior to 5.0 do not support the class keyword; suppress errors:
+Err.Clear
+On Error Resume Next
+
 Class Version
     'region VersionClassMetadata ####################################################
     ' Implements a VBScript version of the .NET System.Version class. Useful because .NET
     ' objects are not readily accessible in VBScript, and version-processing/comparison is a
     ' common systems administration activity.
     '
-    ' Version: 1.0.20210115.1
+    ' Version: 1.1.20210118.0
     '
     ' Public Methods:
     '   Clone(ByRef objTargetVersionObject)
@@ -36,6 +40,59 @@ Class Version
     '   Parse (see InitFromString method)
     '   TryFormat (see ToString method)
     '   TryParse (see InitFromString method)
+    '
+    ' Note: the creation of a class such as this one requires VBScript 5.0, which is included
+    ' in Internet Explorer 5.0 and Windows Scripting Host 2.0. Previous versions of VBScript
+    ' (e.g., VBScript 3.0, included in Internet Explorer 4, IIS 4, Outlook 98, and Windows
+    ' Scripting Host 1.0) are not compatible.
+    '
+    ' Example 1:
+    ' Set objWMI = GetObject("winmgmts:\\.\root\cimv2")
+    ' Set colItems = objWMI.ExecQuery("Select Version from Win32_OperatingSystem")
+    ' For Each objItem in colItems
+    '   strOSString = objItem.Version
+    ' Next
+    ' Set versionOperatingSystem = New Version
+    ' intReturnCode = versionOperatingSystem.InitFromString(strOSString)
+    ' If intReturnCode = 0 Then
+    '   ' Success
+    '   If versionOperatingSystem.CompareToString("10.0") >= 0 Then
+    '       WScript.Echo("Windows 10, Windows Server 2016, or newer!")
+    '   Else
+    '       WScript.Echo("Windows 8.1, Windows Server 2012 R2, or older!")
+    '   End If
+    ' Else
+    '   WScript.Echo("An error occurred reading the OS version.")
+    ' End If
+    '
+    ' Example 2:
+    ' Set objWMI = GetObject("winmgmts:\\.\root\cimv2")
+    ' Set colItems = objWMI.ExecQuery("Select Version from Win32_OperatingSystem")
+    ' For Each objItem in colItems
+    '   strOSString = objItem.Version
+    ' Next
+    ' Set versionCurrentOperatingSystem = New Version
+    ' intReturnCode = versionCurrentOperatingSystem.InitFromString(strOSString)
+    ' If intReturnCode <> 0 Then
+    '   WScript.Echo("Failed to get the current operating system version!")
+    ' End If
+    ' Set versionWindows98 = New Version
+    ' intReturnCode = versionWindows98.InitFromMajorMinorBuild(4,10,1998)
+    ' Set versionWindows98SE = New Version
+    ' intReturnCode = versionWindows98SE.InitFromMajorMinorBuild(4,10,2222)
+    ' Set versionWindowsME = New Version
+    ' intReturnCode = versionWindowsME.InitFromMajorMinor(4,90)
+    ' bool9x = False
+    ' If versionCurrentOperatingSystem.GreaterThanOrEqual(versionWindows98) And versionCurrentOperatingSystem.LessThanOrEqual(versionWindows98SE) Then
+    '   bool9x = True
+    ' ElseIf (versionCurrentOperatingSystem.Major = versionWindowsME.Major) And (versionCurrentOperatingSystem.Minor = versionWindowsME.Minor) Then
+    '   bool9x = True
+    ' End If
+    ' If bool9x Then
+    '   WScript.Echo("Current OS is Windows 9x. It's 2020 (or later). What are you thinking?")
+    ' Else
+    '   WScript.Echo("Thank the maker! This OS is not Windows 9x.")
+    ' End If
     'endregion VersionClassMetadata ####################################################
 
     'region License ####################################################
@@ -62,6 +119,15 @@ Class Version
     ' The most up-to-date version of this script can be found on the author's GitHub repository
     ' at https://github.com/franklesniak/dotNet_System_Version_on_VBScript
     'endregion DownloadLocationNotice ####################################################
+
+    'region Acknowledgements ####################################################
+    ' Andrew Clinick, for writing the MSDN article "Clinick's Clinic on Scripting: Take Five
+    ' What's New in the Version 5.0 Script Engines" - which confirmed that a VBScript class
+    ' requires 5.0 of the script engine.
+    '
+    ' Jerry Lee Ford, Jr., for providing a history of VBScript and Windows Scripting Host in
+    ' his book, "Microsoft WSH and VBScript Programming for the Absolute Beginner".
+    'endregion Acknowledgements ####################################################
 
     Private lngPrivateMajor
     Private lngPrivateMinor
@@ -1288,3 +1354,7 @@ Class Version
         End If
     End Property
 End Class
+
+' Restore error handling for VBScript 1.0 - 4.0:
+Err.Clear
+On Error Goto 0
