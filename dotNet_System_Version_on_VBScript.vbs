@@ -8,7 +8,7 @@ Class Version
     ' objects are not readily accessible in VBScript, and version-processing/comparison is a
     ' common systems administration activity.
     '
-    ' Version: 1.1.20210118.0
+    ' Version: 1.1.20210118.1
     '
     ' Public Methods:
     '   Clone(ByRef objTargetVersionObject)
@@ -42,9 +42,10 @@ Class Version
     '   TryParse (see InitFromString method)
     '
     ' Note: the creation of a class such as this one requires VBScript 5.0, which is included
-    ' in Internet Explorer 5.0 and Windows Scripting Host 2.0. Previous versions of VBScript
-    ' (e.g., VBScript 3.0, included in Internet Explorer 4, IIS 4, Outlook 98, and Windows
-    ' Scripting Host 1.0) are not compatible.
+    ' in Internet Explorer 5.0 and was made available as a standalone download. One can also
+    ' install Windows Scripting Host 2.0, which includes VBScript 5.1 and is compatible.
+    ' Previous versions of VBScript (e.g., VBScript 3.0, included in Internet Explorer 4, IIS
+    ' 4, Outlook 98, and Windows Scripting Host 1.0) are not compatible.
     '
     ' Example 1:
     ' Set objWMI = GetObject("winmgmts:\\.\root\cimv2")
@@ -127,6 +128,9 @@ Class Version
     '
     ' Jerry Lee Ford, Jr., for providing a history of VBScript and Windows Scripting Host in
     ' his book, "Microsoft WSH and VBScript Programming for the Absolute Beginner".
+    '
+    ' Gunter Born, for providing a history of Windows Scripting Host in his book "Microsoft
+    ' Windows Script Host 2.0 Developer's Guide" that corrected some points.
     'endregion Acknowledgements ####################################################
 
     Private lngPrivateMajor
